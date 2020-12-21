@@ -1,21 +1,4 @@
 import {WordCounter} from '../src/WordCounter';
-import {fromAscii, toAscii} from '../src/utils';
-
-describe('Conversion utils', () => {
-    it('converts to ASCII successfully', () => {
-        const words = 'convert this';
-        const result = toAscii(words);
-
-        expect(result).toEqual('99 111 110 118 101 114 116 32 116 104 105 115');
-    });
-
-    it('converts from ASCII successfully', () => {
-        const ascii = '116 101 115 116';
-        const result = fromAscii(ascii);
-
-        expect(result).toEqual('test');
-    });
-});
 
 describe('WordCounter', () => {
     it('count the correct number of occurrences of a single word', () => {
