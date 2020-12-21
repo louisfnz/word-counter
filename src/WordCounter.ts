@@ -14,6 +14,14 @@ export class WordCounter implements IWordCounter {
         this.wordFragment = null;
     }
 
+    private sanitiseWordSeparatorChars(char: string): string {
+        // Treat these characters as "word-separators" by converting to spaces
+        const separators = '.,:;?!';
+        // (basic rules, in case these chars are not followed by spaces)
+        if (separators.split('').includes(char)) return ' ';
+        return char;
+    }
+
     private addWordOccurrence(word: string): void {
         // Get current word count
         let count = this.wordMap.get(word);
@@ -38,8 +46,8 @@ export class WordCounter implements IWordCounter {
             return false;
         }
 
-        // Get an array of chars in the chunk
-        const chars = chunk.split('');
+        // Get an array of chars in the chunk and sanitise
+        const chars = chunk.split('').map(this.sanitiseWordSeparatorChars);
 
         for (const char of chars) {
             if (char === ' ') {

@@ -90,6 +90,22 @@ describe('WordCounter', () => {
         );
     });
 
+    it('ignores multiple consecutive spaces', () => {
+        const wordCounter = new WordCounter();
+        const chunks = [' hel', 'lo  ', ' ', '    ', ' th', 'ere  ', ''];
+
+        for (const chunk of chunks) {
+            wordCounter.processChunk(chunk);
+        }
+
+        expect(wordCounter.currentCount()).toEqual(
+            new Map([
+                ['hello', 1],
+                ['there', 1],
+            ]),
+        );
+    });
+
     it('correctly processes chunks of single characters', () => {
         const wordCounter = new WordCounter();
         const chunks = ['t', 'e', 's', 't', ' ', 't', 'h', 'i', 's', ' ', 's', 'e', 'n', 't', 'e', 'n', 'c', 'e', ''];
@@ -147,5 +163,25 @@ describe('WordCounter', () => {
         });
 
         expect(count).toEqual(16);
+    });
+
+    it('handles basic word separating characters correctly', () => {
+        const wordCounter = new WordCounter();
+        const chunks = ['A sen', 'ten', 'ce.wi', 'th som', 'e,ba', 'd, pu', 'nctua', 'tion', ''];
+
+        for (const chunk of chunks) {
+            wordCounter.processChunk(chunk);
+        }
+
+        expect(wordCounter.currentCount()).toEqual(
+            new Map([
+                ['A', 1],
+                ['sentence', 1],
+                ['with', 1],
+                ['some', 1],
+                ['bad', 1],
+                ['punctuation', 1],
+            ]),
+        );
     });
 });
