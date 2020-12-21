@@ -20,7 +20,7 @@ describe('Conversion utils', () => {
 describe('WordCounter', () => {
     it('count the correct number of occurrences of a single word', () => {
         const wordCounter = new WordCounter();
-        const chunks = ['some words for the test', 'with test in here twice'];
+        const chunks = ['some words for the test', ' with test in here twice', ''];
 
         for (const chunk of chunks) {
             wordCounter.processChunk(chunk);
@@ -33,7 +33,15 @@ describe('WordCounter', () => {
 
     it('counts the correct total number of words', () => {
         const wordCounter = new WordCounter();
-        const chunks = ['There is nothing in the world', 'so irresistibly contagious', 'as laughter and good humor'];
+        const chunks = [
+            'There is noth',
+            'ing',
+            ' ',
+            'in the worl',
+            'd so irresistibly contagious ',
+            'as laughter and good humor',
+            '',
+        ];
 
         for (const chunk of chunks) {
             wordCounter.processChunk(chunk);
@@ -53,6 +61,7 @@ describe('WordCounter', () => {
             'I was disconcerted, for I had broken away without quite seeing where I was going to.',
             'Do I want to be a gentleman, to spite her or to gain her over?',
             'Exactly what I myself had thought, many times. Exactly what was perfectly manifest to me at the moment',
+            '',
         ];
 
         wordCounter.processChunk(chunks[0]);
@@ -74,5 +83,36 @@ describe('WordCounter', () => {
 
         const resultTwo = wordCounter.processChunk(chunks[1]);
         expect(resultTwo).toEqual(false);
+    });
+
+    it('counts words split across chunks correctly', () => {
+        const wordCounter = new WordCounter();
+        const chunks = [
+            'I ',
+            'wa',
+            's d',
+            'is',
+            'concer',
+            'ted',
+            ', for I had brok',
+            'en away witho',
+            'ut quite s',
+            'eeing where ',
+            'I',
+            ' ',
+            'was going to.',
+            '',
+        ];
+
+        for (const chunk of chunks) {
+            wordCounter.processChunk(chunk);
+        }
+
+        let count = 0;
+        wordCounter.currentCount().forEach((value) => {
+            count += value;
+        });
+
+        expect(count).toEqual(16);
     });
 });
