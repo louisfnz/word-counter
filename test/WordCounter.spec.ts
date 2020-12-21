@@ -150,7 +150,7 @@ describe('WordCounter', () => {
 
     it('handles basic word separating characters correctly', () => {
         const wordCounter = new WordCounter();
-        const chunks = ['A sen', 'ten', 'ce.wi', 'th som', 'e,ba', 'd, pu', 'nctua', 'tion', ''];
+        const chunks = ['A!sen', 'ten', 'ce.wi', 'th som', 'e,ba', 'd, pu', 'nctua', 'tion?', ''];
 
         for (const chunk of chunks) {
             wordCounter.processChunk(chunk);
