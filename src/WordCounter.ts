@@ -26,22 +26,24 @@ export class WordCounter implements IWordCounter {
     }
 
     processChunk(chunk: string): boolean {
-        // End of stream, process any remaining fragment and return false
+        // End of stream, process any remaining fragment
         if (!chunk || !chunk.length) {
             if (this.wordFragment) {
                 this.addWordOccurrence(this.wordFragment);
                 // Reset word fragment to null
                 this.wordFragment = null;
             }
+
+            // Return false, indicating the stream has finished
             return false;
         }
 
-        // Get an array of chars in the chunk, remove empty strings
+        // Get an array of chars in the chunk
         const chars = chunk.split('');
 
         for (const char of chars) {
             if (char === ' ') {
-                // Start of a new word, process fragment...
+                // A space indicates the start of a new word, process existing fragment...
                 if (this.wordFragment) {
                     this.addWordOccurrence(this.wordFragment);
                     // Reset word fragment to null
@@ -53,6 +55,7 @@ export class WordCounter implements IWordCounter {
             }
         }
 
+        // Returns true, indicating the stream will continue
         return true;
     }
 
