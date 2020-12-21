@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Word counter take home question",
   "scripts": {
-    "dev": "nodemon --config nodemon.json src/index.ts",
+    "dev": "nodemon src/index.ts",
     "test": "jest"
   },
   "author": "@louiswtf",
