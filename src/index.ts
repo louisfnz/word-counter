@@ -1,15 +1,9 @@
+// Just for mucking around...
+
 import {WordCounter} from './WordCounter';
 
 const wordCounter = new WordCounter();
-const chunks = [
-    'There is noth',
-    'ing',
-    ' ',
-    'in the worl',
-    'd so irresistibly contagious ',
-    'as laughter and good humor',
-    '',
-];
+const chunks = ['thi', 's', ' is', ' a sen', 'ten', 'ce'];
 
 for (const chunk of chunks) {
     wordCounter.processChunk(chunk);

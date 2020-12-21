@@ -74,6 +74,39 @@ describe('WordCounter', () => {
         expect(wordCounter.currentCount().get('I')).toEqual(5);
     });
 
+    it('ignores spaces at the start or end of the stream', () => {
+        const wordCounter = new WordCounter();
+        const chunks = [' hel', 'lo ', 'th', 'ere ', ''];
+
+        for (const chunk of chunks) {
+            wordCounter.processChunk(chunk);
+        }
+
+        expect(wordCounter.currentCount()).toEqual(
+            new Map([
+                ['hello', 1],
+                ['there', 1],
+            ]),
+        );
+    });
+
+    it('correctly processes chunks of single characters', () => {
+        const wordCounter = new WordCounter();
+        const chunks = ['t', 'e', 's', 't', ' ', 't', 'h', 'i', 's', ' ', 's', 'e', 'n', 't', 'e', 'n', 'c', 'e', ''];
+
+        for (const chunk of chunks) {
+            wordCounter.processChunk(chunk);
+        }
+
+        expect(wordCounter.currentCount()).toEqual(
+            new Map([
+                ['test', 1],
+                ['this', 1],
+                ['sentence', 1],
+            ]),
+        );
+    });
+
     it('processChunk() returns false when the chunk is an empty string', () => {
         const wordCounter = new WordCounter();
         const chunks = ['not empty', ''];
