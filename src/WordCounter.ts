@@ -14,12 +14,10 @@ export class WordCounter implements IWordCounter {
         this.wordFragment = null;
     }
 
-    private sanitiseWordSeparatorChars(char: string): string {
-        // Treat these characters as "word-separators" by converting to spaces
-        const separators = '.,:;?!';
-        // (basic rules, in case these chars are not followed by spaces)
-        if (separators.split('').includes(char)) return ' ';
-        return char;
+    private isWordSeparator(char: string): boolean {
+        // Treat these characters as "word-separators"
+        const separators = '.,:;?! ';
+        return separators.split('').includes(char);
     }
 
     private addWordOccurrence(word: string): void {
@@ -47,11 +45,11 @@ export class WordCounter implements IWordCounter {
         }
 
         // Get an array of chars in the chunk and sanitise
-        const chars = chunk.split('').map(this.sanitiseWordSeparatorChars);
+        const chars = chunk.split('');
 
         for (const char of chars) {
-            if (char === ' ') {
-                // A space indicates the start of a new word, process existing fragment...
+            if (this.isWordSeparator(char)) {
+                // Start of a new word, process existing fragment...
                 if (this.wordFragment) {
                     this.addWordOccurrence(this.wordFragment);
                     // Reset word fragment to null
